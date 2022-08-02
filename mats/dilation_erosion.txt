@@ -1,0 +1,1 @@
+A dilation filter replaces each pixel in the 3X3 region with the darkest pixel in that 3x3 region. An erosion filter replaces each pixel in the 3X3 region with the lightest pixel in that 3x3 region. That is if your background is light and your foreground object is dark. If you flip your background and foreground, then you would also flip your dilation and erosion filter.
