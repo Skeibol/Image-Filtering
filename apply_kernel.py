@@ -164,21 +164,30 @@ def apply_kernel_matchPattern(img,heatmap,pattern,original):
     padw=0
     if h_kernel%2!=0: padh=1
     if w_kernel%2!=0: padw=1
+    min = 99
     
-    for i in range(0+h_kernel//2,(h-h_kernel//2)-2):
-        for i1 in range(0+w_kernel//2,(w-w_kernel//2)-2):
+    for i in range(0+h_kernel//2,(h-h_kernel//2)):
+        for i1 in range(0+w_kernel//2,(w-w_kernel//2)):
             sum_roi = img[i-h_kernel//2:i+h_kernel//2+padh,i1-w_kernel//2:i1+w_kernel//2+padw] - kernel
             sum_roi = np.average(np.absolute(sum_roi))
-            if sum_roi<115:
+            # cv2.imshow("Img",img[i-h_kernel//2:i+h_kernel//2+padh,i1-w_kernel//2:i1+w_kernel//2+padw] )
+            # cv2.waitKey()
+            # print(sum_roi)
+            if sum_roi<min:
+                min=sum_roi
+
+            
+            if sum_roi<70:
                 top_left = (i1-w_kernel//2,i-h_kernel//2)
                 bot_right = (i1+w_kernel//2,i+h_kernel//2)
+                
                 sum_roi = 0 
                 cv2.rectangle(original,top_left,bot_right,rect_color,thickness=1)
                
             else: sum_roi = 255
-
+        
             heatmap[i,i1] = sum_roi
-    
+    print(min)
     return original, heatmap
        
 def apply_kernel_matchPattern_rgb(img,heatmap,pattern,original):
@@ -191,9 +200,10 @@ def apply_kernel_matchPattern_rgb(img,heatmap,pattern,original):
     padw=0
     if h_kernel%2!=0: padh=1
     if w_kernel%2!=0: padw=1
+    min = 99
     
-    for i in range(0+h_kernel//2,(h-h_kernel//2)-2):
-        for i1 in range(0+w_kernel//2,(w-w_kernel//2)-2):
+    for i in range(0+h_kernel//2,(h-h_kernel//2)):
+        for i1 in range(0+w_kernel//2,(w-w_kernel//2)):
             sum_roi_r = img[i-h_kernel//2:i+h_kernel//2+padh,i1-w_kernel//2:i1+w_kernel//2+padw,0] - kernel[:,:,0]
             sum_roi_b = img[i-h_kernel//2:i+h_kernel//2+padh,i1-w_kernel//2:i1+w_kernel//2+padw,1] - kernel[:,:,1]
             sum_roi_g = img[i-h_kernel//2:i+h_kernel//2+padh,i1-w_kernel//2:i1+w_kernel//2+padw,2] - kernel[:,:,2]
@@ -201,7 +211,14 @@ def apply_kernel_matchPattern_rgb(img,heatmap,pattern,original):
             sum_roi_g = np.average(np.absolute(sum_roi_g))
             sum_roi_b = np.average(np.absolute(sum_roi_b))
             sum_roi = np.average([sum_roi_b,sum_roi_g,sum_roi_r])
-            if sum_roi<115:
+            #cv2.imshow("Img",img[i-h_kernel//2:i+h_kernel//2+padh,i1-w_kernel//2:i1+w_kernel//2+padw,0] )
+            #cv2.waitKey()
+            #print(sum_roi)
+            if sum_roi<min:
+                min=sum_roi
+            
+            if sum_roi==0:
+                
                 top_left = (i1-w_kernel//2,i-h_kernel//2)
                 bot_right = (i1+w_kernel//2,i+h_kernel//2)
                 sum_roi = 0 
@@ -210,6 +227,6 @@ def apply_kernel_matchPattern_rgb(img,heatmap,pattern,original):
             else: sum_roi = 255
 
             heatmap[i,i1] = sum_roi
-        
+    print(min)
     return original, heatmap
        

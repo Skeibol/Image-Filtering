@@ -108,10 +108,12 @@ def matchPattern(img, pattern, ret_heatmap=False):
 
     if len(img.shape)==3:
         new_img = np.zeros_like(img[:,:,0])
-        new_img, heatmap = apply_kernel_matchPattern_rgb(img,new_img,pattern,img)
+        img_copy = np.array(img)
+        new_img, heatmap = apply_kernel_matchPattern_rgb(img,new_img,pattern,img_copy)
     else: 
         new_img=np.zeros_like(img)
-        new_img, heatmap = apply_kernel_matchPattern(img,new_img,pattern,img)
+        img_copy = np.array(img)
+        new_img, heatmap = apply_kernel_matchPattern(img,new_img,pattern,img_copy)
 
     heatmap = heatmap.astype(np.int16)
     new_img = new_img.astype(np.int16)
