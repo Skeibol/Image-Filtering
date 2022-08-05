@@ -177,7 +177,7 @@ def apply_kernel_matchPattern(img,heatmap,pattern,original):
                 min=sum_roi
 
             
-            if sum_roi<70:
+            if sum_roi<120:
                 top_left = (i1-w_kernel//2,i-h_kernel//2)
                 bot_right = (i1+w_kernel//2,i+h_kernel//2)
                 
@@ -200,7 +200,7 @@ def apply_kernel_matchPattern_rgb(img,heatmap,pattern,original):
     padw=0
     if h_kernel%2!=0: padh=1
     if w_kernel%2!=0: padw=1
-    min = 99
+    min = 255
     
     for i in range(0+h_kernel//2,(h-h_kernel//2)):
         for i1 in range(0+w_kernel//2,(w-w_kernel//2)):
@@ -214,11 +214,8 @@ def apply_kernel_matchPattern_rgb(img,heatmap,pattern,original):
             #cv2.imshow("Img",img[i-h_kernel//2:i+h_kernel//2+padh,i1-w_kernel//2:i1+w_kernel//2+padw,0] )
             #cv2.waitKey()
             #print(sum_roi)
-            if sum_roi<min:
+            if sum_roi<120:
                 min=sum_roi
-            
-            if sum_roi==0:
-                
                 top_left = (i1-w_kernel//2,i-h_kernel//2)
                 bot_right = (i1+w_kernel//2,i+h_kernel//2)
                 sum_roi = 0 
