@@ -227,3 +227,23 @@ def apply_kernel_matchPattern_rgb(img,heatmap,pattern,original):
     print(min)
     return original, heatmap
        
+def apply_mask(img,mask_range,new_img,inverse):
+    
+    shape = img.shape
+    print(shape)
+    for i in range(shape[0]):
+            for i1 in range(shape[1]):
+                if inverse==False:checkTrue=False
+                else: checkTrue=True
+                for index,_range in enumerate(mask_range):
+                    if _range[1]>img[i,i1,index]>_range[0]:
+                        if inverse==False:checkTrue = True
+                        else: checkTrue=False
+                if checkTrue==True:
+                    new_img[i,i1] = img[i,i1]
+                else:new_img[i,i1] = 0
+                        
+
+    new_img.squeeze()
+    print(new_img.shape)
+    return new_img

@@ -1,5 +1,5 @@
-from apply_kernel import apply_kernel_grayscale, apply_kernel_rgb, apply_kernel_dilation, apply_kernel_erosion, \
-            apply_kernel_dilation_rgb, apply_kernel_erosion_rgb, apply_kernel_matchPattern, apply_kernel_matchPattern_rgb
+from apply import apply_kernel_grayscale, apply_kernel_rgb, apply_kernel_dilation, apply_kernel_erosion, \
+            apply_kernel_dilation_rgb, apply_kernel_erosion_rgb, apply_kernel_matchPattern, apply_kernel_matchPattern_rgb, apply_mask
 from init_kernel import init_kernel
 import numpy as np
 
@@ -31,8 +31,8 @@ def filter(img,kernel_type="blur",kernel_size=3):
     return new_img
 
 def rgbToGray(img):
-    h,w,c = img.shape
     new_img = np.zeros_like(img)
+    h,w,c = img.shape
     for i in range(h):
         for i1 in range(w):
             new_img[i,i1] = (img[i,i1,0]*0.11)+(img[i,i1,1]*0.59)+(img[i,i1,2]*0.3)
@@ -122,3 +122,21 @@ def matchPattern(img, pattern, ret_heatmap=False):
         return new_img, heatmap
     else:
         return new_img
+
+def mask(img,mask_min,mask_max, inverse=False):
+
+    if len(img.shape)!=3:
+        img = np.expand_dims(img,axis=2)
+    
+    new_img = np.zeros_like(img)
+    print(mask_min)
+    mask_range = []
+    for index,element in enumerate(mask_min):
+        mask_range.append([element,mask_max[index]])
+
+    print("Range: ", mask_range)
+
+    new_img = apply_mask(img, mask_range, new_img, inverse)
+
+
+    return new_img
