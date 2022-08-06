@@ -1,5 +1,7 @@
 from apply import apply_kernel_grayscale, apply_kernel_rgb, apply_kernel_dilation, apply_kernel_erosion, \
             apply_kernel_dilation_rgb, apply_kernel_erosion_rgb, apply_kernel_matchPattern, apply_kernel_matchPattern_rgb, apply_mask
+
+import bitwise
 from init_kernel import init_kernel
 import numpy as np
 
@@ -140,3 +142,17 @@ def mask(img,mask_min,mask_max, inverse=False):
 
 
     return new_img
+
+def bitwise_or(image,image2):
+    shape = image.shape
+    shape2 = image2.shape
+    
+    new_image = bitwise.bitor(image,image2,shape,shape2)
+    return new_image
+
+def bitwise_and(image,image2):
+    shape = image.shape
+    shape2 = image2.shape
+
+    new_image = bitwise.bitand(image,image2,shape,shape2)
+    return new_image

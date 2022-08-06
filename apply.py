@@ -1,3 +1,4 @@
+from matplotlib.pyplot import new_figure_manager
 from pad_image import pad_image
 import numpy as np
 import cv2
