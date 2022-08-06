@@ -127,8 +127,8 @@ def mask(img,mask_min,mask_max, inverse=False):
 
     if len(img.shape)!=3:
         img = np.expand_dims(img,axis=2)
-    
-    new_img = np.zeros_like(img)
+    h,w,c=img.shape
+    new_img = np.zeros((h,w),dtype=np.int16)
     print(mask_min)
     mask_range = []
     for index,element in enumerate(mask_min):

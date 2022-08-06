@@ -224,7 +224,6 @@ def apply_kernel_matchPattern_rgb(img,heatmap,pattern,original):
             else: sum_roi = 255
 
             heatmap[i,i1] = sum_roi
-    print(min)
     return original, heatmap
        
 def apply_mask(img,mask_range,new_img,inverse):
@@ -233,14 +232,13 @@ def apply_mask(img,mask_range,new_img,inverse):
     print(shape)
     for i in range(shape[0]):
             for i1 in range(shape[1]):
-                if inverse==False:checkTrue=False
-                else: checkTrue=True
+                checkTrue=0
                 for index,_range in enumerate(mask_range):
+                    test = img[i,i1,index]
                     if _range[1]>img[i,i1,index]>_range[0]:
-                        if inverse==False:checkTrue = True
-                        else: checkTrue=False
-                if checkTrue==True:
-                    new_img[i,i1] = img[i,i1]
+                        checkTrue+=1
+                if checkTrue==index+1:
+                    new_img[i,i1] = 255
                 else:new_img[i,i1] = 0
                         
 
