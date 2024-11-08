@@ -1,3 +1,3 @@
 ## Image filtering
 
-My recreation of modules like OpenCV in python using numpy
+Python implementation of various image processing algorithms, based on OpenCV library.
